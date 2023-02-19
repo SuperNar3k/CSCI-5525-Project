@@ -4,6 +4,7 @@ CSCI 5525 Project for Spring 2023, at University of Minnesota.
 ## How to run the code:
 - Go to /src/data/ 
 - Unzip HASYv2.tar.bz2
+- Unzip HASYv2.tar (the output of the previous unzipping)
 - idk
 
 ## The dataset that was used:
