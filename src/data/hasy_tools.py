@@ -20,6 +20,9 @@ import numpy as np
 import scipy.ndimage
 import matplotlib.pyplot as plt
 
+# necessary for deprecated library
+import imageio
+
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     level=logging.INFO,
                     stream=sys.stdout)
@@ -44,7 +47,7 @@ def _load_csv(filepath, delimiter=',', quotechar="'"):
     """
     data = []
     csv_dir = os.path.dirname(filepath)
-    with open(filepath, 'rb') as csvfile:
+    with open(filepath, 'r') as csvfile:
         reader = csv.DictReader(csvfile,
                                 delimiter=delimiter,
                                 quotechar=quotechar)
@@ -111,13 +114,17 @@ def load_images(csv_filepath, symbol_id2index, one_hot=True, flatten=False):
     labels = []
     for i, data_item in enumerate(data):
         fname = os.path.join(dataset_path, data_item['path'])
+        
+        img = imageio.imread(fname, pilmode='L') # modified by Alex, returns image as np array, 'L' indicates grayscale
         if flatten:
-            img = scipy.ndimage.imread(fname, flatten=False, mode='L')
+            # img = scipy.ndimage.imread(fname, flatten=False, mode='L')
             images[i, :] = img.flatten()
         else:
-            images[i, :, :, 0] = scipy.ndimage.imread(fname,
-                                                      flatten=False,
-                                                      mode='L')
+            # images[i, :, :, 0] = scipy.ndimage.imread(fname,
+            #                                           flatten=False,
+            #                                           mode='L')
+            images[i, :, :, 0] = img # modified by Alex, resizes image
+
         label = symbol_id2index[data_item['symbol_id']]
         labels.append(label)
     data = images, np.array(labels)
