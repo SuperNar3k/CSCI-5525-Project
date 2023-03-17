@@ -14,7 +14,7 @@ import os
 import random
 from PIL import Image, ImageDraw
 import sys
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 
 import numpy as np
 import scipy.ndimage
@@ -519,7 +519,7 @@ def _create_stratified_split(csv_filepath, n_splits):
     n_splits : int
         Number of splits to make
     """
-    from sklearn.cross_validation import StratifiedKFold
+    from sklearn.model_selection import StratifiedKFold
     data = _load_csv(csv_filepath)
     labels = [el['symbol_id'] for el in data]
     skf = StratifiedKFold(labels, n_folds=n_splits)
