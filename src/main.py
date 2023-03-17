@@ -22,11 +22,11 @@ csv_filepath = "src\\data\\classification-task\\fold-1\\test.csv" # may need to 
 
 print("Loading data from: " + csv_filepath)
 symbol_index = hasy.generate_index(csv_filepath)                  # returns dict of labels
-images,labels = hasy.load_images(csv_filepath,symbol_index) 
+images,labels = hasy.load_images(csv_filepath,symbol_index)       # images has size (index,y,x,depth)
 print(f"Loaded {len(images)} images...")
 
 
 # plot a sample image
-sample = hasy.thresholdize(images[0]) # returns np array of size (32,32), b&w img
-plt.imshow(sample, cmap='gray')
+sample = hasy.thresholdize(images[0]) # sample has size (32,32), b&w img (1s and 0s)
+plt.imshow(sample, cmap='gray')       # plot b&w image
 plt.show()
