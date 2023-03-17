@@ -20,7 +20,7 @@ from data import hasy_tools as hasy
 ## each which have train.csv and test.csv
 csv_filepath = "src\\data\\classification-task\\fold-1\\test.csv" # may need to be modified depending on your environment
 
-print("Loading data from: " + csv_filepath)
+print(f"Loading data from: '{csv_filepath}'")
 symbol_index = hasy.generate_index(csv_filepath)                  # returns dict of labels
 images,labels = hasy.load_images(csv_filepath,symbol_index)       # images has size (index,y,x,depth)
 print(f"Loaded {len(images)} images...")
