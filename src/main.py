@@ -12,8 +12,6 @@ import matplotlib.pyplot as plt
 ################################
 
 # Be sure to unzip the .tar before running
-from data import hasy_tools as hasy
-# help(hasy) # prints some helpful tools, somewhat deprecated?
 
 # Load training data
 ## Note for the file path there are 10 folders (fold-1 through fold-10)
