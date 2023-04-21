@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
+import torch 
 
 def preprocess_image(image):
     # You can add any preprocessing steps here
@@ -51,5 +52,5 @@ def predict_latex_code(model, image_tensor):
     with torch.no_grad():
         output = model(image_tensor)
         _, predicted = torch.max(output.data, 1)
-        latex_code = [latex_symbols[i] for i in predicted.numpy()]  # Assuming latex_symbols is a list of unique LaTeX symbols in the dataset
+        latex_code = [latex_symbols[i] for i in predicted.numpy()]  
     return " ".join(latex_code)
