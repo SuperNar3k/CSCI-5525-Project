@@ -19,8 +19,6 @@ from tqdm.auto import tqdm
 from data.crohme.utils import in_model_path
 from data.crohme.transforms import train_transform, test_transform
 
-
-
 class LatexDataset:
     keep_smaller_batches = False
     shuffle = True

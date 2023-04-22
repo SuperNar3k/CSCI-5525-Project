@@ -131,3 +131,4 @@ dmypy.json
 *.png
 __pycache__/
 src/data/crohme/tokenizer.json
+src/data/crohme/CROHME_math.txt
