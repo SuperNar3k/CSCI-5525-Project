@@ -7,15 +7,22 @@ from torchvision import transforms
 from PIL import Image
 
 class CROHMEDatset(Dataset):
-    def __init__(self, image_folder="src\data\crohme\images", label_file="src\data\crohme\CROHME_math.txt", transform=transforms.Compose([
+    def __init__(self, image_folder=os.getcwd()+"\\src\\data\\crohme\\images", label_file=os.getcwd()+"\\src\\data\\crohme\\CROHME_math.txt", transform=transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])):
+        """
+        Make sure you unzip the files first.
+
+        Args:
+            - image_folder (str): path to folder of crohme images
+            - label_file (str): path to labels .txt
+            - transform: transform list of normalizing values for images
+        """
         self.image_folder = image_folder
         self.label_file = label_file
         self.transform = transform
-        
         with open(label_file, 'r') as f:
             self.labels = [line.strip() for line in f.readlines() if line != ""]
 
@@ -25,14 +32,15 @@ class CROHMEDatset(Dataset):
         return len(self.labels)
     
     def __getitem__(self, idx):
-        img_path = os.path.join(self.image_folder, self.image_files[idx])
+        filename = self.image_files[idx]
+        img_path = os.path.join(self.image_folder, filename)
         img = Image.open(img_path).convert('RGB')
         
         if self.transform:
             img = self.transform(img)
         
         label = self.labels[idx]
-        return img, label
+        return img, label, filename
     
 def get_CROHME_loaders(batch_size=32):
     dataset = CROHMEDatset()
@@ -54,18 +62,21 @@ def get_CROHME_loaders(batch_size=32):
 
     return train_loader, test_loader, val_loader
 
-def print_sample(img, std, mean):
+def print_sample(img, std=[0.485, 0.456, 0.406], mean=[0.229, 0.224, 0.225]):
+    plt.imshow(unnormalize(img, std, mean))
+    plt.show()
+
+def unnormalize(img, std=[0.485, 0.456, 0.406], mean=[0.229, 0.224, 0.225]):
     img = img.numpy().transpose((1, 2, 0))
     img = (img * std) + mean  # Unnormalize
     img = img.clip(0, 1)      # Clip values to [0, 1] range
-    plt.imshow(img)
-    plt.show()
+    return img
 
 if __name__ == "__main__":
     # Test if this thing works
     cwd = os.getcwd()
-    image_folder = "src\data\crohme\images"
-    label_file = "src\data\crohme\CROHME_math.txt"
+    image_folder = cwd + "\\src\\data\\crohme\\images"
+    label_file = cwd + "\\src\\data\\crohme\\CROHME_math.txt"
 
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
