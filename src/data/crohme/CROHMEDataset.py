@@ -6,7 +6,7 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from PIL import Image
 
-class CROHMEDatset(Dataset):
+class CROHMEDataset(Dataset):
     def __init__(self, image_folder=os.getcwd()+"\\src\\data\\crohme\\images", label_file=os.getcwd()+"\\src\\data\\crohme\\CROHME_math.txt", transform=transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),

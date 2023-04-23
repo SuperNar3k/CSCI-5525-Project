@@ -5,8 +5,7 @@ import torch
 import cv2
 import os
 
-from data_utils import *
-import CROHMEDataset
+import data_utils
 
 def find_bounding_boxes(image_path=None, image=None):
     """
@@ -44,7 +43,7 @@ def tensor_to_grayscale(img):
 ################################
 
 if __name__ == "__main__":
-    train_loader, test_loader, val_loader = CROHMEDataset.get_CROHME_loaders()
+    train_loader, test_loader, val_loader = data_utils.get_CROHME_loaders()
 
     # Get a sample from the train_loader
     sample_images, sample_labels, sample_fnames = next(iter(train_loader))
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     # Display the first image and its label
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
-    CROHMEDataset.print_sample(img, mean, std)
+    data_utils.plot_crohme_img(img, mean, std)
     print("Label:", sample_labels[0])
 
     # Find bounding boxes for a given image

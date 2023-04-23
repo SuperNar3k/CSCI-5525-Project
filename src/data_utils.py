@@ -44,7 +44,7 @@ def plot_hasy_img(image):
 ## default batch sizes are 32
 ## see details within CROHMEDataset.py
 def get_CROHME_loaders(batch_size=32):
-    dataset = CROHMEDatset()
+    dataset = crohme.CROHMEDataset()
 
     # Split the dataset into training, testing, and validation sets
     train_ratio, test_ratio, val_ratio = 0.7, 0.2, 0.1
