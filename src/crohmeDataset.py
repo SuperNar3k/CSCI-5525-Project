@@ -1,4 +1,6 @@
 # CSCI 5525 | Group 11
+# Written by Alex
+
 import matplotlib.pyplot as plt
 import os
 import torch
@@ -6,7 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from PIL import Image
 
-class CROHMEDataset(Dataset):
+class crohmeDataset(Dataset):
     def __init__(self, image_folder=os.getcwd()+"\\src\\data\\crohme\\images", label_file=os.getcwd()+"\\src\\data\\crohme\\CROHME_math.txt", transform=transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
@@ -43,7 +45,7 @@ class CROHMEDataset(Dataset):
         return img, label, filename
     
 def get_CROHME_loaders(batch_size=32):
-    dataset = CROHMEDatset()
+    dataset = crohmeDataset()
 
     # Split the dataset into training, testing, and validation sets
     train_ratio, test_ratio, val_ratio = 0.7, 0.2, 0.1

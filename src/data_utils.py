@@ -1,12 +1,13 @@
 # CSCI 5525 | Group 11
 # Written by Alex
+import numpy as np
 import matplotlib.pyplot as plt
 import os
 import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from data.crohme import CROHMEDataset as crohme
+import crohmeDataset as crohme
 from data.hasy import hasy_tools as hasy
 
 ################################
@@ -29,7 +30,14 @@ def load_hasy(csv_filepath=None):
     images,labels = hasy.load_images(csv_filepath,symbol_index) # images has size (index,y,x,depth)
     print(f"Loaded {len(images)} images...")
 
-    return images, labels
+    return images, labels, symbol_index
+
+def get_hasy_label(labels, index, symbol_index):
+    np.argmax(labels[index])
+    index2symbol_id = {v: k for k, v in symbol_index.items()}
+    symbol_id = index2symbol_id[index]
+
+    return symbol_id
 
 def plot_hasy_img(image):
     # plot a sample image has size (32,32), b&w img (1s and 0s)
@@ -44,7 +52,7 @@ def plot_hasy_img(image):
 ## default batch sizes are 32
 ## see details within CROHMEDataset.py
 def get_CROHME_loaders(batch_size=32):
-    dataset = crohme.CROHMEDataset()
+    dataset = crohme.crohmeDataset()
 
     # Split the dataset into training, testing, and validation sets
     train_ratio, test_ratio, val_ratio = 0.7, 0.2, 0.1
@@ -85,7 +93,7 @@ if __name__ == "__main__":
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
-    dataset = crohme.CROHMEDatset(image_folder, label_file, transform=transform)
+    dataset = crohme.crohmeDataset(image_folder, label_file, transform=transform)
 
     # Split the dataset into training, testing, and validation sets
     train_ratio, test_ratio, val_ratio = 0.7, 0.2, 0.1
