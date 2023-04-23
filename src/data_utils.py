@@ -39,7 +39,7 @@ def get_hasy_loaders(batch_size=32, filepath=None):
     """
     dataset = hasy.HasyDataset(path=filepath)
 
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=0)
 
     return dataloader
 
@@ -75,9 +75,9 @@ def get_CROHME_loaders(batch_size=32):
     train_set, test_set, val_set = torch.utils.data.random_split(dataset, [train_size, test_size, val_size])
 
     # Create DataLoaders for each set
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=4)
-    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=4)
-    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=4)
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0)
+    val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=0)
 
     return train_loader, test_loader, val_loader
 
