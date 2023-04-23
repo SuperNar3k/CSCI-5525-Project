@@ -8,7 +8,8 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 
 import crohmeDataset as crohme
-from data.hasy import hasy_tools as hasy
+import hasyDataset as hasy
+import data.hasy.hasy_tools as hasy_tools
 
 ################################
 #        Load HASYv2(s)        #
@@ -26,22 +27,32 @@ def load_hasy(csv_filepath=None):
         raise ValueError("Filepath to .csv is not defined")
     
     print(f"Loading HASYv2 data from: '{csv_filepath}'")
-    symbol_index = hasy.generate_index(csv_filepath)            # returns dict of labels
-    images,labels = hasy.load_images(csv_filepath,symbol_index) # images has size (index,y,x,depth)
+    symbol_index = hasy_tools.generate_index(csv_filepath)            # returns dict of labels
+    images,labels = hasy_tools.load_images(csv_filepath,symbol_index) # images has size (index,y,x,depth)
     print(f"Loaded {len(images)} images...")
 
     return images, labels, symbol_index
 
+def get_hasy_loaders(batch_size=32, filepath=None):
+    """
+    Pytorch style dataloaders for hasy
+    """
+    dataset = hasy.HasyDataset(path=filepath)
+
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+
+    return dataloader
+
 def get_hasy_label(labels, index, symbol_index):
-    np.argmax(labels[index])
+    label_index = np.argmax(labels[index])
     index2symbol_id = {v: k for k, v in symbol_index.items()}
-    symbol_id = index2symbol_id[index]
+    symbol_id = index2symbol_id[label_index]
 
     return symbol_id
 
 def plot_hasy_img(image):
     # plot a sample image has size (32,32), b&w img (1s and 0s)
-    plt.imshow(hasy.thresholdize(image), cmap='gray')       # plot b&w image
+    plt.imshow(hasy_tools.thresholdize(image), cmap='gray')       # plot b&w image
     plt.show()
 
 ################################
@@ -64,7 +75,6 @@ def get_CROHME_loaders(batch_size=32):
     train_set, test_set, val_set = torch.utils.data.random_split(dataset, [train_size, test_size, val_size])
 
     # Create DataLoaders for each set
-    batch_size = 32
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=4)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=4)
     val_loader = DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=4)
