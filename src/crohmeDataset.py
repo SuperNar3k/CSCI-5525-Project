@@ -86,7 +86,7 @@ if __name__ == "__main__":
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
-    dataset = CROHMEDatset(image_folder, label_file, transform=transform)
+    dataset = crohmeDataset(image_folder, label_file, transform=transform)
 
     # Split the dataset into training, testing, and validation sets
     train_ratio, test_ratio, val_ratio = 0.7, 0.2, 0.1
